@@ -4,7 +4,7 @@ const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('./config/passport')
 const methodOverride = require('method-override')
-const db = require('./models')
+const helpers = require('./_helpers')
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -25,7 +25,7 @@ app.use(flash())
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
   res.locals.error_messages = req.flash('error_messages')
-  res.locals.user = req.user
+  res.locals.user = helpers.getUser(req)
   next()
 })
 
