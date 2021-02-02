@@ -1,5 +1,6 @@
 const db = require('../models')
 const Restaurant = db.Restaurant
+const User = db.User
 const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
@@ -17,7 +18,7 @@ const adminController = {
 
   postRestaurant: (req, res) => {
     if (!req.body.name) {
-      req.flash('error_messages', "name didn't exist")
+      req.flash('error_messages', "Name didn't exist")
       return res.redirect('back')
     }
 
@@ -33,7 +34,7 @@ const adminController = {
           description: req.body.description,
           image: file ? img.data.link : null,
         }).then((restaurant) => {
-          req.flash('success_messages', 'restaurant was successfully created')
+          req.flash('success_messages', 'Restaurant was successfully created.')
           return res.redirect('/admin/restaurants')
         })
       })
@@ -47,7 +48,7 @@ const adminController = {
         description: req.body.description,
         image: null
       }).then((restaurant) => {
-        req.flash('success_messages', 'restaurant was successfully created')
+        req.flash('success_messages', 'Restaurant was successfully created.')
         return res.redirect('/admin/restaurants')
       })
     }
@@ -69,7 +70,7 @@ const adminController = {
 
   putRestaurant: (req, res) => {
     if (!req.body.name) {
-      req.flash('error_messages', "name didn't exist")
+      req.flash('error_messages', "Name didn't exist")
       return res.redirect('back')
     }
 
@@ -88,7 +89,7 @@ const adminController = {
               image: file ? img.data.link : restaurant.image,
             })
               .then((restaurant) => {
-                req.flash('success_messages', 'restaurant was successfully to update')
+                req.flash('success_messages', 'Restaurant was successfully updated.')
                 res.redirect('/admin/restaurants')
               })
           })
@@ -106,7 +107,7 @@ const adminController = {
             image: restaurant.image
           })
             .then((restaurant) => {
-              req.flash('success_messages', 'restaurant was successfully to update')
+              req.flash('success_messages', 'Restaurant was successfully updated.')
               res.redirect('/admin/restaurants')
             })
         })
@@ -121,6 +122,23 @@ const adminController = {
             res.redirect('/admin/restaurants')
           })
       })
+  },
+
+  // Users
+  getUsers: (req, res) => {
+    User.findAll({ raw: true }).then(users => {
+      res.render('admin/users', { users })
+    })
+  },
+
+  putUsers: (req, res) => {
+    User.findByPk(req.params.id).then(user => {
+      user.isAdmin = !user.isAdmin
+      user.save().then(user => {
+        req.flash('success_messages', `User '${user.name}' was successfully updated.`)
+        res.redirect('/admin/users')
+      })
+    })
   }
 }
 

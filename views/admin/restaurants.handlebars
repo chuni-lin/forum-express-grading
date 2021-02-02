@@ -1,5 +1,13 @@
 <h1>餐廳後台</h1>
 
+<div class="mb-5">
+  <big>
+    <a href="/admin/restaurants">Restaurants</a>
+    <span> | </span>
+    <a href="/admin/users">Users</a>
+  </big>
+</div>
+
 <a href='/admin/restaurants/create'>
   <button type="button" class="btn btn-primary">New Restaurant</button>
 </a>
@@ -31,11 +39,31 @@
             Edit
           </a>
         </button>
-        <form action="/admin/restaurants/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-link">Delete</button>
-        </form>
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#deleteModal-{{this.id}}">
+          Delete
+        </button>
       </td>
     </tr>
     {{/each}}
   </tbody>
 </table>
+
+<!-- Delete Modal -->
+{{#each restaurants}}
+<div class="modal fade" id="deleteModal-{{this.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <big class="modal-body">
+        Are you sure to delete "<strong>{{this.name}}</strong>" ?
+      </big>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+        <form action="/admin/restaurants/{{this.id}}?_method=DELETE" method="POST">
+          <button type="submit" class="btn btn-danger">delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}

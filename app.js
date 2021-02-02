@@ -12,7 +12,14 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
+app.engine('handlebars', handlebars({
+  defaultLayout: 'main',
+  helpers: {
+    ifSame: function (v1, v2, options) {
+      return (v1 === v2) ? options.fn(this) : options.inverse(this)
+    }
+  }
+}))
 app.set('view engine', 'handlebars')
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))

@@ -1,0 +1,62 @@
+<h1>餐廳後台</h1>
+
+<div class="mb-5">
+  <big>
+    <a href="/admin/restaurants">Restaurants</a>
+    <span> | </span>
+    <a href="/admin/users">Users</a>
+  </big>
+</div>
+
+<br />
+<br />
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Role</th>
+      <th scope="col">#</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each users}}
+    <tr>
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.email}}</td>
+      <td>
+        {{#if this.isAdmin}}admin{{else}}user{{/if}}
+      </td>
+      <td>
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#toggleModal-{{this.id}}" {{#ifSame
+          this.id ../user.id}}disabled{{/ifSame}}>
+          set as {{#if this.isAdmin}}user{{else}}admin{{/if}}
+        </button>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<!-- Toggle Modal -->
+{{#each users}}
+<div class="modal fade" id="toggleModal-{{this.id}}" tabindex="-1" role="dialog" aria-labelledby="toggleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <big class="modal-body">
+        Are you sure to set "<strong>{{this.name}}</strong>" as {{#if this.isAdmin}}user{{else}}admin{{/if}}?
+      </big>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <form action="/admin/users/{{this.id}}/toggleAdmin?_method=PUT" method="POST">
+          <button type="submit" class="btn btn-primary">Sure</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
