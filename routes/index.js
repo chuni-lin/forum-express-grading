@@ -53,6 +53,8 @@ module.exports = (app, passport) => {
 
   app.put('/admin/categories/:id', authenticatedAdmin, categoryController.putCategory)
 
+  app.delete('/admin/categories/:id', authenticatedAdmin, categoryController.deleteCategory)
+
   // users
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
   app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.putUsers)
