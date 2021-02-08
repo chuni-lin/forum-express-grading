@@ -55,6 +55,9 @@ module.exports = (app, passport) => {
 
   app.delete('/admin/categories/:id', authenticatedAdmin, categoryController.deleteCategory)
 
+  // rest
+  app.get('/restaurants/:id', authenticated, restController.getRestaurant)
+
   // users
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
   app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.putUsers)
