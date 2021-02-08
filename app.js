@@ -14,11 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.engine('handlebars', handlebars({
   defaultLayout: 'main',
-  helpers: {
-    ifSame: function (v1, v2, options) {
-      return (v1 === v2) ? options.fn(this) : options.inverse(this)
-    }
-  }
+  helpers: require('./config/handlebars-helpers')
 }))
 app.set('view engine', 'handlebars')
 app.use(express.urlencoded({ extended: true }))
