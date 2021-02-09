@@ -23,6 +23,12 @@
 
 <h3>所有評論：</h3>
 {{#each restaurant.Comments}}
+{{#if ../user.isAdmin}}
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{this.id}}"
+  style="float: right;">
+  Delete
+</button>
+{{/if}}
 <blockquote class="blockquote mb-0">
   <h4><a href="/users/{{this.User.id}}">{{this.User.name}}</a></h4>
   <p>{{this.text}}</p>
@@ -43,3 +49,23 @@
 </form>
 
 <a href="javascript:history.back()">回上一頁</a>
+
+<!-- Delete Modal -->
+{{#each restaurant.Comments}}
+<div class="modal fade" id="deleteModal-{{this.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <big class="modal-body">
+        Do you want to delete <strong>{{this.User.name}}</strong>'s comment ?
+      </big>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+        <form action="/comments/{{this.id}}?_method=DELETE" method="POST">
+          <button type="submit" class="btn btn-danger">delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
