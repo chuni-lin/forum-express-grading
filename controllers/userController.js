@@ -79,7 +79,8 @@ const userController = {
 
   editUser: (req, res) => {
     User.findByPk(req.params.id).then(user =>
-      res.render('profileEdit', { user: req.user, profile: user.toJSON() }))
+      res.render('editProfile', { user: req.user, profile: user.toJSON() })
+    )
   },
 
   putUser: (req, res) => {
