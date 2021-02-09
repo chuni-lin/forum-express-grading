@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-md-12 mb-3">
+    <h1>{{restaurant.name}}</h1>
+    <span class="badge badge-dark">
+      <big>
+        {{restaurant.Category.name}}
+      </big>
+    </span>
+  </div>
+
+  <hr>
+
+  {{!-- Events Data --}}
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">counts</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Comments</th>
+        <td>{{countOfComments}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Views</th>
+        <td>{{viewCounts}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Favorites</th>
+        <td>{{CountOfFavorite}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br />
+  <a href="javascript:history.back()">Back</a>
