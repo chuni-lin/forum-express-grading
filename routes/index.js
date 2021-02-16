@@ -78,6 +78,10 @@ module.exports = (app, passport) => {
   app.post('/favorite/:RestaurantId', authenticated, userController.addFavorite)
   app.delete('/favorite/:RestaurantId', authenticated, userController.removeFavorite)
 
+  // likes
+  app.post('/like/:restaurantId', authenticated, userController.like)
+  app.delete('/like/:restaurantId', authenticated, userController.unlike)
+
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
 

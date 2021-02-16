@@ -3,9 +3,8 @@ const Restaurant = db.Restaurant
 const Category = db.Category
 const Comment = db.Comment
 const User = db.User
-const helper = require('../_helpers')
 const pageLimit = 10
-
+const helper = require('../_helpers')
 
 const restController = {
   getRestaurants: (req, res) => {
@@ -35,7 +34,8 @@ const restController = {
         ...r.dataValues,
         description: r.dataValues.description.substring(0, 50),
         categoryName: r.dataValues.Category.name,
-        isFavorited: helper.getUser(req).FavoritedRestaurants.map(item => item.id).includes(r.id)
+        isFavorited: req.user.FavoritedRestaurants.map(item => item.id).includes(r.id),
+        isLiked: req.user.LikedRestaurants.map(item => item.id).includes(r.id)
       }))
       Category.findAll({
         raw: true,
@@ -60,14 +60,17 @@ const restController = {
         Category,
         { model: User, as: 'FavoritedUsers' },
         { model: Comment, include: [User] },
+        { model: User, as: 'LikedUsers' },
       ],
     }).then(restaurant => {
       restaurant.viewCounts = restaurant.viewCounts + 1
       restaurant.save().then(restaurant => {
-        const isFavorited = helper.getUser(req).FavoritedRestaurants.map(item => item.id).includes(restaurant.id)
+        const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(helper.getUser(req).id)
+        const isLiked = restaurant.LikedUsers.map(item => item.id).includes(helper.getUser(req).id)
         return res.render('restaurant', {
           restaurant: restaurant.toJSON(),
-          isFavorited: isFavorited
+          isFavorited,
+          isLiked
         })
       })
     })
