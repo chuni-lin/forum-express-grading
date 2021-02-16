@@ -1,0 +1,36 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" href="/restaurants">首頁</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/restaurants/feeds">最新動態</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/users/top">美食達人</a>
+  </li>
+</ul>
+<br /><br />
+<h1>美食達人</h1>
+<hr />
+<div class="row" style="text-align: center;">
+  {{#each users}}
+  <div class="col-3">
+    <a href="/users/{{this.id}}">
+      <img class=""
+        src="{{#if this.image}}{{this.image}}{{else}}https://www.kindpng.com/picc/m/22-223965_no-profile-picture-icon-circle-member-icon-png.png{{/if}}"
+        width="140px" height="140px">
+    </a>
+    <h2>{{this.name}}</h2>
+    <span class="badge badge-secondary">Followers: {{this.FollowerCount}}</span>
+    <p>
+      {{#if this.isFollowed }}
+    <form action="/following/{{this.id}}?_method=DELETE" method="POST" style="display: contents;"><button type="submit"
+        class="btn btn-primary">Following</button></form>
+    {{else}}
+    <form action="/following/{{this.id}}" method="POST" style="display: contents;"><button type="submit"
+        class="btn btn-outline-primary" {{#ifSame this.id ../user.id}}disabled{{/ifSame}}>Follow</button></form>
+    {{/if}}
+    </p>
+  </div>
+  {{/each}}
+</div>
