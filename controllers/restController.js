@@ -118,6 +118,22 @@ const restController = {
       const countOfComments = comments.count
       return res.render('dashboard', { restaurant, countOfComments })
     })
+  },
+
+  getTop10Rests: (req, res) => {
+    Restaurant.findAll({
+      include: [{ model: User, as: 'FavoritedUsers' }]
+    }).then(restaurants => {
+      restaurants = restaurants.map(r => ({
+        ...r.dataValues,
+        description: r.description.substring(0, 50),
+        FavoriteCount: r.FavoritedUsers.length,
+        isFavorited: req.user.FavoritedRestaurants.map(item => item.id).includes(r.id)
+      }))
+      restaurants = restaurants.sort((a, b) => b.FavoriteCount - a.FavoriteCount)
+      restaurants = restaurants.slice(0, 10)
+      return res.render('top10Rests', { restaurants })
+    })
   }
 }
 
