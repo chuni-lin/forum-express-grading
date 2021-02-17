@@ -9,6 +9,12 @@
       <div class="card-body">
         <h5 class="card-title">{{profile.name}}</h5>
         <p class="card-text">{{profile.email}}</p>
+        <ul class="mx-0 px-0" style="list-style-type: none;">
+          <li><strong>{{countOfCommentRests}}</strong> 已評論餐廳</li>
+          <li><strong>{{countOfFavoritedRests}}</strong> 收藏的餐廳</li>
+          <li><strong>{{countOfFollowings}}</strong> followings</li>
+          <li><strong>{{countOfFollowers}}</strong> followers</li>
+        </ul>
         {{#ifSame profile.id user.id}}
         <a class="btn btn-primary" href="/users/{{profile.id}}/edit" role="button">Edit</a>
         {{/ifSame}}
@@ -17,18 +23,72 @@
   </div>
 </div>
 
-<div class="card mt-4">
-  <h5 class="card-header">
-    <span class="badge badge-pill badge-primary">{{countOfComments}}</span> comments on <span
-      class="badge badge-pill badge-primary">{{countOfRests}}</span> restaurants
-  </h5>
-  <div class="card-body d-flex flex-wrap justify-content-start">
-    {{#each restaurants}}
-    <a href="/restaurants/{{this.id}}">
-      <img
-        src="{{#if this.image}}{{this.image}}{{else}}https://p.kindpng.com/picc/s/21-216273_restaurant-logo-big-image-restaurant-logo-png-free.png{{/if}}"
-        alt="restaurant" class="img-thumbnail m-3" style="width: 100px; height: 100px;">
-    </a>
-    {{/each}}
+<div class="row my-4">
+  <div class="col-5">
+    <div class="card">
+      <h5 class="card-header">
+        <span class="badge badge-pill badge-primary">{{countOfFollowings}}</span> followings
+      </h5>
+      <div class="card-body">
+        {{#each followings}}
+        <a href="/users/{{this.id}}">
+          <img
+            src="{{#if this.image}}{{this.image}}{{else}}https://www.kindpng.com/picc/m/22-223965_no-profile-picture-icon-circle-member-icon-png.png{{/if}}"
+            alt="avatar" class="img-thumbnail m-3" style="width: 80px; height: 80px;">
+        </a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  <div class="col-7">
+    <div class="card">
+      <h5 class="card-header">
+        <span class="badge badge-pill badge-primary">{{countOfComments}}</span> comments on <span
+          class="badge badge-pill badge-primary">{{countOfCommentRests}}</span> restaurants
+      </h5>
+      <div class="card-body">
+        {{#each commentedRestaurants}}
+        <a href="/restaurants/{{this.id}}">
+          <img
+            src="{{#if this.image}}{{this.image}}{{else}}https://p.kindpng.com/picc/s/21-216273_restaurant-logo-big-image-restaurant-logo-png-free.png{{/if}}"
+            alt="restaurant" class="img-thumbnail m-3" style="width: 80px; height: 80px;">
+        </a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row my-4">
+  <div class="col-5">
+    <div class="card">
+      <h5 class="card-header">
+        <span class="badge badge-pill badge-primary">{{countOfFollowers}}</span> followers
+      </h5>
+      <div class="card-body">
+        {{#each followers}}
+        <a href="/users/{{this.id}}">
+          <img
+            src="{{#if this.image}}{{this.image}}{{else}}https://www.kindpng.com/picc/m/22-223965_no-profile-picture-icon-circle-member-icon-png.png{{/if}}"
+            alt="avatar" class="img-thumbnail m-3" style="width: 80px; height: 80px;">
+        </a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  <div class="col-7">
+    <div class="card">
+      <h5 class="card-header">
+        <span class="badge badge-pill badge-primary">{{countOfFavoritedRests}}</span> favorite restaurants
+      </h5>
+      <div class="card-body">
+        {{#each FavoritedRestaurants}}
+        <a href="/restaurants/{{this.id}}">
+          <img
+            src="{{#if this.image}}{{this.image}}{{else}}https://p.kindpng.com/picc/s/21-216273_restaurant-logo-big-image-restaurant-logo-png-free.png{{/if}}"
+            alt="restaurant" class="img-thumbnail m-3" style="width: 80px; height: 80px;">
+        </a>
+        {{/each}}
+      </div>
+    </div>
   </div>
 </div>

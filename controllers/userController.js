@@ -58,25 +58,41 @@ const userController = {
   // profile
   getUser: (req, res) => {
     const UserId = req.params.id
-    User.findByPk(UserId).then(user => {
-      Comment.findAndCountAll({
-        raw: true,
-        nest: true,
-        include: Restaurant,
-        where: { UserId }
-      }).then(result => {
-        const countOfComments = result.count || 0
-        const restaurants = result.rows.map(comment => comment.Restaurant)
-        const uniqueRests = Array.from(new Set(restaurants.map(item => item.id)))
-          .map(id => restaurants.find(item => item.id === id))
+    User.findByPk(UserId, {
+      include: [
+        { model: Comment, include: [Restaurant] },
+        { model: Restaurant, as: 'FavoritedRestaurants' },
+        { model: User, as: 'Followings' },
+        { model: User, as: 'Followers' }
+      ],
+    }).then(user => {
+      const userJSON = user.toJSON()
+      const profile = {
+        id: userJSON.id,
+        name: userJSON.name,
+        email: userJSON.email,
+        image: userJSON.image
+      }
+      const followings = userJSON.Followings
+      const followers = userJSON.Followers
+      const FavoritedRestaurants = userJSON.FavoritedRestaurants
 
-        return res.render('profile', {
-          user: req.user,
-          profile: user.toJSON(),
-          countOfComments,
-          countOfRests: uniqueRests.length || 0,
-          restaurants: uniqueRests
-        })
+      const allCommentedRests = userJSON.Comments.map(comment => comment.Restaurant)
+      const uniqueRests = Array.from(new Set(allCommentedRests
+        .map(item => item.id)))
+        .map(id => allCommentedRests.find(item => item.id === id))
+
+      return res.render('profile', {
+        profile,
+        countOfFollowings: followings.length,
+        followings,
+        countOfFollowers: followers.length,
+        followers,
+        countOfComments: userJSON.Comments.length,
+        countOfCommentRests: uniqueRests.length,
+        commentedRestaurants: uniqueRests,
+        countOfFavoritedRests: FavoritedRestaurants.length,
+        FavoritedRestaurants
       })
     })
   },
