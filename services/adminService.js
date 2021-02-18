@@ -40,6 +40,34 @@ const adminService = {
     }
   },
 
+  putRestaurant: (req, res, callback) => {
+    const update = req.body
+    const { file } = req
+    if (!update.name) {
+      callback({ status: 'error', message: 'name field is required.' })
+    }
+
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID)
+      imgur.upload(file.path, (err, img) => {
+        if (err) console.log('Error: ', err)
+        return Restaurant.findByPk(req.params.id).then(restaurant => {
+          update.image = file ? img.data.link : restaurant.image
+          restaurant.update(update).then(restaurant => {
+            callback({ status: 'success', message: `restaurant '${restaurant.name}' was updated successfully!` })
+          })
+        })
+      })
+    } else {
+      Restaurant.findByPk(req.params.id).then(restaurant => {
+        update.image = restaurant.image
+        restaurant.update(update).then(restaurant => {
+          callback({ status: 'success', message: `restaurant '${restaurant.name}' was updated successfully!` })
+        })
+      })
+    }
+  },
+
   deleteRestaurant: (req, res, callback) => {
     Restaurant.findByPk(req.params.id).then(restaurant => {
       restaurant.destroy().then(restaurant => {
