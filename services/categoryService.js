@@ -22,6 +22,16 @@ const categoryService = {
       callback({ status: 'success', message: `category '${category.name}' was created successfully!` })
     })
   },
+
+  putCategory: (req, res, callback) => {
+    const { id } = req.params
+    const update = req.body
+    Category.findByPk(id).then(category => {
+      category.update(update).then(category => {
+        callback({ status: 'success', message: `category '${category.name}' was updated successfully!` })
+      })
+    })
+  },
 }
 
 module.exports = categoryService
