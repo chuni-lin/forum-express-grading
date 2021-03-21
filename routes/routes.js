@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 const passport = require('../config/passport')
 
 const restController = require('../controllers/restController.js')
@@ -10,7 +10,6 @@ const commentController = require('../controllers/commentController.js')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 const helpers = require('../_helpers')
-
 
 const authenticated = (req, res, next) => {
   if (helpers.ensureAuthenticated(req)) {
@@ -26,10 +25,10 @@ const authenticatedAdmin = (req, res, next) => {
   res.redirect('/signin')
 }
 
-//如果使用者訪問首頁，就導向 /restaurants 的頁面
+// 如果使用者訪問首頁，就導向 /restaurants 的頁面
 router.get('/', authenticated, (req, res) => res.redirect('/restaurants'))
 
-//在 /restaurants 底下則交給 restController.getRestaurants 來處理
+// 在 /restaurants 底下則交給 restController.getRestaurants 來處理
 router.get('/restaurants', authenticated, restController.getRestaurants)
 
 // 連到 /admin 頁面就轉到 /admin/restaurants
@@ -96,7 +95,5 @@ router.post('/signup', userController.signUp)
 router.get('/signin', userController.signInPage)
 router.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
 router.get('/logout', userController.logout)
-
-
 
 module.exports = router

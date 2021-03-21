@@ -16,3 +16,4 @@ node_modules
 
 temp/
 upload/
+.vscode

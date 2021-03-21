@@ -64,7 +64,7 @@ const userController = {
         { model: Restaurant, as: 'FavoritedRestaurants' },
         { model: User, as: 'Followings' },
         { model: User, as: 'Followers' }
-      ],
+      ]
     }).then(user => {
       const userJSON = user.toJSON()
       const profile = {
@@ -108,7 +108,7 @@ const userController = {
     const update = req.body
     const { file } = req
     if (!update.name) {
-      req.flash('error_messages', "Name field is required.")
+      req.flash('error_messages', 'Name field is required.')
       return res.redirect('back')
     }
 
@@ -207,7 +207,5 @@ const userController = {
       })
   }
 }
-
-
 
 module.exports = userController

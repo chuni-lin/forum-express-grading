@@ -60,8 +60,8 @@ const restController = {
         Category,
         { model: User, as: 'FavoritedUsers' },
         { model: Comment, include: [User] },
-        { model: User, as: 'LikedUsers' },
-      ],
+        { model: User, as: 'LikedUsers' }
+      ]
     }).then(restaurant => {
       restaurant.viewCounts = restaurant.viewCounts + 1
       restaurant.save().then(restaurant => {

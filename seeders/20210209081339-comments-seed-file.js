@@ -11,13 +11,13 @@ module.exports = {
     const restaurants = await Restaurant.findAll({ raw: true })
     await queryInterface.bulkInsert('Comments',
       Array.from({ length: 30 }).map(i =>
-      ({
-        text: faker.lorem.text().substring(0, 50),
-        UserId: users[Math.floor(Math.random() * users.length)].id,
-        RestaurantId: restaurants[Math.floor(Math.random() * restaurants.length)].id,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })
+        ({
+          text: faker.lorem.text().substring(0, 50),
+          UserId: users[Math.floor(Math.random() * users.length)].id,
+          RestaurantId: restaurants[Math.floor(Math.random() * restaurants.length)].id,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
       ), {})
   },
 
